@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<script>if(location.protocol!=='file:'){var bs=document.createElement('base');bs.href='/';document.head.appendChild(bs)}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Johan Carl Duran | Graphic Designer &amp; IT Student Portfolio</title>
 <meta name="description" content="Portfolio of Johan Carl B. Duran, a BSIT student and graphic designer from Calamba, Laguna. Logos, posters and social media designs.">
 <meta name="keywords" content="graphic designer, portfolio, logo design, poster design, BSIT student, Calamba">
-<link rel="canonical" href="https://duranprogs.github.io/">
+<link rel="canonical" href="https://duranprogs.github.io/Portfolio-Website/">
+<script>(function(){var c=document.querySelector('link[rel=canonical]');window.BASE='/';try{if(c)BASE=new URL(c.href).pathname.replace(/\/?$/,'/')}catch(e){}if(location.protocol!=='file:'){var b=document.createElement('base');b.href=BASE;document.head.appendChild(b)}})()</script>
 <meta property="og:type" content="website"><meta property="og:title" content="Johan Carl Duran | Graphic Designer &amp; IT Student Portfolio">
-<meta property="og:description" content="Logos, posters and social media designs by Johan Carl B. Duran."><meta property="og:url" content="https://duranprogs.github.io/"><meta property="og:image" content="https://duranprogs.github.io/profile.jpg">
+<meta property="og:description" content="Logos, posters and social media designs by Johan Carl B. Duran."><meta property="og:url" content="https://duranprogs.github.io/Portfolio-Website/"><meta property="og:image" content="https://duranprogs.github.io/Portfolio-Website/profile.jpg">
 <meta name="twitter:card" content="summary">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
 <style>
@@ -311,8 +311,8 @@ boot.onclick=endBoot;bl();
 /* pages */
 const accents=['#00ff9c','#00d4ff','#ff3df0','#ffb800'];let ai=0;
 const routes={'':'home',about:'about',skills:'skills',experience:'experience',projects:'work',education:'education',cv:'cv',contact:'contact'},ids={};for(const k in routes)ids[routes[k]]=k;
-function setUrl(p){try{if(location.protocol==='file:')history.pushState(null,'','#'+(routes[p]||p));else history.pushState(null,'','/'+p)}catch(e){}}
-function fromUrl(){let p=location.protocol==='file:'?location.hash.replace(/^#\/?/,''):location.pathname.replace(/^\/|\/$/g,'');
+function setUrl(p){try{if(location.protocol==='file:')history.pushState(null,'','#'+(routes[p]||p));else history.pushState(null,'',BASE+p)}catch(e){}}
+function fromUrl(){let p=location.protocol==='file:'?location.hash.replace(/^#\/?/,''):location.pathname.slice(BASE.length).replace(/^\/|\/$/g,'');
  if(p.startsWith('projects/')){const i=P.findIndex(x=>x.id===p.slice(9));if(i>-1){proj(i,false);return}}
  go(p in routes?routes[p]:(/^[a-z]+$/.test(p)&&p!=='proj'&&$('#'+p)?p:'home'),false)}
 function go(id,push){
@@ -370,7 +370,7 @@ const E=[{p:'BS Information Technology Student',o:'City College of Calamba',l:'C
 const ED=[['Bachelor of Science in Information Technology','City College of Calamba','2024 – Present'],['Senior High School · TVL – ICT','Laguna College of Business and Arts','2022 – 2024'],['Junior High School','Laguna College of Business and Arts','2018 – 2022'],['Elementary School','Jose Rizal Memorial School','2012 – 2018']];
 $('#tle').innerHTML=E.map(x=>`<div><em>${x.d}</em><br><b>${x.p}</b><br><span class="dim">${x.o} · ${x.l}</span><br>${x.r}</div>`).join('');
 $('#tled').innerHTML=ED.map(x=>`<div><em>${x[2]}</em><br><b>${x[0]}</b><br><span class="dim">${x[1]}</span></div>`).join('');
-const CV=(location.protocol==='file:'?'':'/')+'files/Johan-Carl-Duran-CV.pdf';
+const CV='files/Johan-Carl-Duran-CV.pdf';
 $$('a[data-cv]').forEach(a=>a.href=CV);
 /* dark / light */
 function setT(t){document.documentElement.dataset.theme=t;try{localStorage.setItem('theme',t)}catch(e){}}
