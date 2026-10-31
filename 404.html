@@ -164,12 +164,35 @@ textarea{min-height:90px;resize:vertical}
 @media(max-width:760px){.hb{display:inline-block}.app{position:relative;grid-template-rows:1fr}.side{display:none;position:absolute;z-index:50;left:0;right:0;top:0;flex-direction:column}.side.open{display:flex;background:var(--pn)}.side a{border-bottom:0}}
 .th img{width:100%;height:100%;object-fit:cover;display:block}
 .ba.im{height:440px}.ba.im>div{place-items:start;padding:8px;font-size:13px;color:#000;letter-spacing:2px}.ba.im .a{place-items:start end}
+.rt{display:flex;align-items:center;gap:10px}.tg{margin-right:0}.st{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.hb,.tg{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+@media(max-width:760px){
+ .top{height:62px;padding:0 12px;gap:8px;font-size:13px}
+ .hb{display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;font-size:24px;line-height:1;padding:0;margin:0;flex:none}
+ .top b{letter-spacing:1px;font-size:13px;margin-right:auto;white-space:nowrap}
+ .tg{height:38px;padding:0 12px;font-size:13px;display:inline-flex;align-items:center;gap:2px}
+ .st .on{display:none}
+ .side{max-height:100%;overflow-y:auto;box-shadow:0 12px 30px #000a}
+ .side a{padding:15px 22px;font-size:15px}
+}
+@media(max-width:400px){.tw{display:none}.tg{width:42px;padding:0;justify-content:center;font-size:18px}.top b{font-size:12px;letter-spacing:.5px}}
+@media(max-width:340px){.top{padding:0 8px;gap:4px}.hb{width:40px;height:44px}.top b{font-size:11px;letter-spacing:0}.st{font-size:11px;gap:4px}.tg{width:38px}.rt{gap:6px}}
+.scrim{display:none}
+@media(max-width:760px){
+ .side,[data-theme=light] .side{display:flex;flex-direction:column;position:absolute;z-index:50;top:0;bottom:0;left:0;right:auto;width:min(290px,82%);max-height:none;overflow-y:auto;padding:8px 0;background:var(--pn);border-right:1px solid var(--ln);box-shadow:none;transform:translateX(-104%);visibility:hidden;transition:transform .34s cubic-bezier(.22,.8,.3,1),box-shadow .34s,visibility 0s linear .34s}
+ .side.open{transform:none;visibility:visible;box-shadow:14px 0 34px #000b;transition:transform .34s cubic-bezier(.22,.8,.3,1),box-shadow .34s,visibility 0s}
+ .side a{opacity:0;transform:translateX(-16px);transition:opacity .25s,transform .3s}
+ .side.open a{opacity:1;transform:none}
+ .side.open a:nth-of-type(1){transition-delay:0.16s}.side.open a:nth-of-type(2){transition-delay:0.20s}.side.open a:nth-of-type(3){transition-delay:0.24s}.side.open a:nth-of-type(4){transition-delay:0.28s}.side.open a:nth-of-type(5){transition-delay:0.32s}.side.open a:nth-of-type(6){transition-delay:0.36s}.side.open a:nth-of-type(7){transition-delay:0.40s}.side.open a:nth-of-type(8){transition-delay:0.44s}
+ .scrim{display:block;position:absolute;inset:0;z-index:40;background:#000c;opacity:0;pointer-events:none;transition:opacity .34s}
+ .side.open~.scrim{opacity:1;pointer-events:auto}
+}
 </style>
 </head>
 <body>
 <div class="boot" id="boot"></div>
 
-<header class="top"><button class="hb" id="hb" aria-label="Menu" aria-expanded="false">&#9776;</button><b class="ac">JCD://PORTFOLIO</b><span class="dim m" id="path">~/home</span><span><button class="tg" id="tg" aria-label="Toggle light or dark mode">&#9680; theme</button><i class="dot"></i>ONLINE · <span id="clk"></span></span></header>
+<header class="top"><button class="hb" id="hb" aria-label="Menu" aria-expanded="false">&#9776;</button><b class="ac">JCD://PORTFOLIO</b><span class="dim m" id="path">~/home</span><span class="rt"><button class="tg" id="tg" aria-label="Toggle light or dark mode"><span aria-hidden="true">&#9680;</span><span class="tw"> theme</span></button><span class="st"><i class="dot"></i><span class="on">ONLINE · </span><span id="clk"></span></span></span></header>
 
 <div class="app">
  <nav class="side">
@@ -326,7 +349,7 @@ function go(id,push){
  if(push!==false)setUrl(id==='proj'?'projects/'+P[cur].id:(ids[id]||''));
 }
 document.addEventListener('click',e=>{
- $('.side').classList.remove('open');$('#hb').setAttribute('aria-expanded','false');
+ if(!e.target.closest('#hb')){$('.side').classList.remove('open');$('#hb').setAttribute('aria-expanded','false')}
  const g=e.target.closest('[data-g]');if(g){go(g.dataset.g);say('> cd ~/'+g.dataset.g);return}
  const t=e.target.closest('[data-p]');if(t)proj(+t.dataset.p);
 });
@@ -377,6 +400,8 @@ function setT(t){document.documentElement.dataset.theme=t;try{localStorage.setIt
 try{const t=localStorage.getItem('theme');if(t)setT(t)}catch(e){}
 $('#tg').onclick=()=>setT(document.documentElement.dataset.theme==='light'?'dark':'light');
 /* mobile menu + keyboard access */
+const sc=document.createElement('div');sc.className='scrim';$('.app').appendChild(sc);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('.side').classList.remove('open');$('#hb').setAttribute('aria-expanded','false')}});
 $('#hb').onclick=()=>{const o=$('.side').classList.toggle('open');$('#hb').setAttribute('aria-expanded',o)};
 $$('[data-g]').forEach(e=>{e.tabIndex=0;e.setAttribute('role','link')});
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.matches('[data-g],[data-p]'))e.target.click()});
